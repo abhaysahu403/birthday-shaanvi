@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Happy Birthday, Shivangi! 🌸</title>
+<style>
+:root{
+  --bg:#0D0A1A;
+  --bg2:#13102A;
+  --rose:#FF6B9D;
+  --rose-light:#FFB3CE;
+  --violet:#7C3AED;
+  --violet-light:#A78BFA;
+  --gold:#FBBF24;
+  --gold-light:#FDE68A;
+  --cream:#FFF1F5;
+  --text:#F3E8FF;
+  --muted:#C4B5D4;
+  --pink-glow:rgba(255,107,157,0.15);
+  --violet-glow:rgba(124,58,237,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100svh;overflow-x:hidden;line-height:1.6;
+}
+
+/* ── Canvas bg ── */
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── Ambient orbs ── */
+.orb{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  filter:blur(80px);opacity:0;animation:orb-drift 8s ease-in-out infinite alternate;
+}
+.orb1{width:400px;height:400px;background:var(--pink-glow);top:-100px;left:-100px;animation-delay:0s;}
+.orb2{width:350px;height:350px;background:var(--violet-glow);bottom:-80px;right:-80px;animation-delay:3s;}
+.orb3{width:250px;height:250px;background:rgba(251,191,36,0.07);top:40%;left:60%;animation-delay:5s;}
+@keyframes orb-drift{
+  0%{opacity:0.6;transform:translate(0,0) scale(1);}
+  100%{opacity:1;transform:translate(30px,20px) scale(1.1);}
+}
+
+/* ── Page layout ── */
+#page{position:relative;z-index:2;}
+
+/* ══════════════════════════════════════════════════════
+   SCREEN 1 — INTRO
+══════════════════════════════════════════════════════ */
+#s-intro{
+  min-height:100svh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:2rem 1.5rem 3rem;text-align:center;
+  max-width:700px;margin:0 auto;
+}
+
+/* Terminal window */
+.terminal{
+  width:100%;max-width:480px;
+  background:#0F0B1E;
+  border:1px solid rgba(124,58,237,0.4);
+  border-radius:12px;
+  box-shadow:0 0 40px rgba(124,58,237,0.2),0 0 80px rgba(255,107,157,0.08),0 20px 60px rgba(0,0,0,0.5);
+  overflow:hidden;margin-bottom:2.4rem;
+}
+.term-bar{
+  display:flex;align-items:center;gap:6px;
+  background:#1A1530;padding:10px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.term-dot{width:11px;height:11px;border-radius:50%;}
+.term-dot:nth-child(1){background:#FF5F57;}
+.term-dot:nth-child(2){background:#FEBC2E;}
+.term-dot:nth-child(3){background:#28C840;}
+.term-title{flex:1;text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.3);letter-spacing:0.08em;}
+.term-body{padding:1.1rem 1.3rem 1.2rem;font-family:"SF Mono","Fira Code","Courier New",monospace;font-size:clamp(0.72rem,2.2vw,0.85rem);line-height:1.9;text-align:left;}
+.term-line{display:block;white-space:pre-wrap;word-break:break-all;}
+.tc-prompt{color:#A78BFA;}
+.tc-cmd{color:#F3E8FF;}
+.tc-comment{color:#6B7280;}
+.tc-string{color:#F472B6;}
+.tc-success{color:#34D399;}
+.tc-gold{color:#FBBF24;}
+.tc-error{color:#F87171;}
+.cursor{
+  display:inline-block;width:8px;height:1.1em;
+  background:#A78BFA;vertical-align:middle;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+/* Typed text hidden initially */
+.term-line{opacity:0;}
+.term-line.typed{opacity:1;}
+
+/* Title */
+.intro-name{
+  font-size:clamp(2.2rem,9vw,3.8rem);font-weight:900;
+  line-height:1.1;letter-spacing:-0.02em;
+  background:linear-gradient(135deg,#FFB3CE 0%,#FF6B9D 35%,#A78BFA 70%,#FBBF24 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:0.7rem;animation:shimmer 4s linear infinite;
+  background-size:200% 200%;
+}
+@keyframes shimmer{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+.intro-sub{
+  font-size:clamp(0.88rem,2.8vw,1rem);color:var(--muted);
+  max-width:36ch;margin:0 auto 2.2rem;line-height:1.75;
+}
+
+/* CTA */
+.btn-cta{
+  position:relative;display:inline-flex;align-items:center;gap:0.5em;
+  padding:1em 2.4em;font-size:clamp(0.97rem,3.2vw,1.08rem);font-weight:700;
+  color:#0D0A1A;border:none;border-radius:50px;cursor:pointer;
+  background:linear-gradient(135deg,#FFB3CE,#FF6B9D,#A78BFA);
+  background-size:200% 200%;animation:btn-glow-move 3s ease infinite;
+  box-shadow:0 0 24px rgba(255,107,157,0.45),0 4px 20px rgba(0,0,0,0.3);
+  transition:transform 0.25s,box-shadow 0.25s;min-height:54px;
+  overflow:hidden;
+}
+@keyframes btn-glow-move{
+  0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}
+}
+.btn-cta::before{
+  content:'';position:absolute;inset:-2px;border-radius:inherit;
+  background:linear-gradient(135deg,#FF6B9D,#A78BFA,#FBBF24,#FF6B9D);
+  background-size:300% 300%;animation:border-spin 4s linear infinite;
+  z-index:-1;filter:blur(6px);opacity:0.6;
+}
+@keyframes border-spin{0%{background-position:0% 50%;}100%{background-position:300% 50%;}}
+.btn-cta:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 40px rgba(255,107,157,0.65),0 8px 32px rgba(0,0,0,0.35);}
+.btn-cta:active{transform:scale(0.97);}
+.btn-cta:focus-visible{outline:3px solid var(--gold);outline-offset:4px;}
+
+.intro-hint{margin-top:0.9rem;font-size:0.78rem;color:var(--muted);opacity:0.6;}
+
+/* ══════════════════════════════════════════════════════
+   SCREEN 2 — CELEBRATION
+══════════════════════════════════════════════════════ */
+#s-cel{
+  display:none;flex-direction:column;align-items:center;
+  max-width:720px;margin:0 auto;padding:0 1.25rem 5rem;
+}
+#s-cel.visible{display:flex;animation:fade-rise 0.7s ease both;}
+@keyframes fade-rise{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
+
+/* Section headings */
+.s-tag{
+  font-size:clamp(0.65rem,2vw,0.75rem);letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--rose);opacity:0.75;margin-bottom:0.6rem;font-weight:600;
+}
+.s-title{
+  font-size:clamp(1.5rem,5.5vw,2.2rem);font-weight:800;line-height:1.2;
+  color:var(--cream);margin-bottom:0.5rem;
+}
+.s-title .accent{color:var(--rose-light);}
+
+/* ── Cake universe scene ── */
+.universe-scene{
+  position:relative;width:320px;height:320px;
+  margin:2rem auto 1.5rem;
+}
+
+/* Orbit rings */
+.orbit{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.06);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.orbit-1{width:200px;height:200px;border-color:rgba(255,107,157,0.15);}
+.orbit-2{width:270px;height:270px;border-color:rgba(167,139,250,0.12);}
+.orbit-3{width:310px;height:310px;border-color:rgba(251,191,36,0.08);}
+
+/* Orbiting dots */
+.orb-dot{
+  position:absolute;border-radius:50%;top:50%;left:50%;
+}
+.od1{width:10px;height:10px;background:var(--rose);box-shadow:0 0 8px var(--rose);
+     animation:orbit-spin 6s linear infinite;margin:-5px 0 0 -5px;}
+.od2{width:7px;height:7px;background:var(--gold);box-shadow:0 0 6px var(--gold);
+     animation:orbit-spin 10s linear infinite reverse;margin:-3.5px 0 0 -3.5px;}
+.od3{width:8px;height:8px;background:var(--violet-light);box-shadow:0 0 6px var(--violet-light);
+     animation:orbit-spin 14s linear infinite;margin:-4px 0 0 -4px;}
+.od4{width:5px;height:5px;background:#34D399;box-shadow:0 0 5px #34D399;
+     animation:orbit-spin 8s linear infinite reverse;margin:-2.5px 0 0 -2.5px;}
+
+@keyframes orbit-spin{
+  from{transform:rotate(0deg) translateX(100px) rotate(0deg);}
+  to{transform:rotate(360deg) translateX(100px) rotate(-360deg);}
+}
+.od2{--r:135px;}
+@keyframes orbit-spin2{
+  from{transform:rotate(0deg) translateX(135px) rotate(0deg);}
+  to{transform:rotate(360deg) translateX(135px) rotate(-360deg);}
+}
+.od2{animation:orbit-spin2 10s linear infinite reverse;}
+.od3{--r:155px;}
+@keyframes orbit-spin3{
+  from{transform:rotate(45deg) translateX(155px) rotate(-45deg);}
+  to{transform:rotate(405deg) translateX(155px) rotate(-405deg);}
+}
+.od3{animation:orbit-spin3 14s linear infinite;}
+.od4{--r:100px;}
+@keyframes orbit-spin4{
+  from{transform:rotate(200deg) translateX(100px) rotate(-200deg);}
+  to{transform:rotate(560deg) translateX(100px) rotate(-560deg);}
+}
+.od4{animation:orbit-spin4 8s linear infinite reverse;}
+
+/* Cake centrepiece */
+.cake-centre{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  filter:drop-shadow(0 0 30px rgba(255,107,157,0.35)) drop-shadow(0 8px 24px rgba(0,0,0,0.45));
+}
+
+/* Candle flames */
+.flame{animation:flame-flicker 0.85s ease-in-out infinite alternate;}
+.flame:nth-child(2){animation-delay:.15s;animation-duration:1.05s;}
+.flame:nth-child(3){animation-delay:.3s;animation-duration:.75s;}
+.flame:nth-child(4){animation-delay:.08s;animation-duration:.95s;}
+.flame:nth-child(5){animation-delay:.42s;animation-duration:1.1s;}
+@keyframes flame-flicker{
+  0%{transform:scaleX(1) scaleY(1);opacity:.95;}
+  50%{transform:scaleX(.8) scaleY(1.15) translateY(-2px);opacity:1;}
+  100%{transform:scaleX(1.1) scaleY(.9) translateY(1px);opacity:.88;}
+}
+
+/* Constellation / code rain / sparkle layers via canvas */
+#sparkle-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;}
+
+/* Cards */
+.card{
+  width:100%;background:rgba(19,16,42,0.8);
+  border:1px solid rgba(255,107,157,0.12);
+  border-radius:20px;padding:clamp(1.5rem,4vw,2.4rem) clamp(1.3rem,4vw,2.2rem);
+  box-shadow:0 8px 48px rgba(0,0,0,0.4),0 0 60px rgba(255,107,157,0.04);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  margin-bottom:1.4rem;text-align:center;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,107,157,0.4),rgba(167,139,250,0.4),transparent);
+}
+
+/* Message */
+.msg-block{
+  text-align:left;background:rgba(255,255,255,0.025);
+  border-radius:14px;padding:1.4rem 1.4rem;
+  border:1px solid rgba(255,107,157,0.08);margin-top:1.2rem;
+}
+.msg-block p{
+  font-size:clamp(0.9rem,2.8vw,1rem);color:var(--text);
+  line-height:1.85;margin-bottom:0.85rem;
+}
+.msg-block p:last-child{margin-bottom:0;}
+.msg-headline{
+  font-size:clamp(1rem,3.2vw,1.15rem);font-weight:700;
+  color:var(--rose-light);margin-bottom:1rem;
+}
+.wish-text{font-size:clamp(0.9rem,2.8vw,1rem);color:var(--muted);max-width:44ch;margin:0 auto 1.4rem;line-height:1.8;}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:0.8rem;justify-content:center;margin:1.6rem 0;color:var(--rose);opacity:0.4;font-size:0.8rem;}
+.div-line{flex:1;max-width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--rose),transparent);}
+
+/* ── Constellation wish ── */
+.constellation-wrap{
+  width:100%;height:180px;position:relative;
+  margin:1rem 0;cursor:crosshair;
+  border-radius:14px;overflow:hidden;
+  background:rgba(0,0,0,0.2);border:1px solid rgba(124,58,237,0.15);
+}
+#const-canvas{width:100%;height:100%;display:block;}
+.const-hint{font-size:0.78rem;color:var(--muted);opacity:0.6;margin-top:0.5rem;}
+
+/* Wish result */
+#wish-result{
+  margin-top:1.1rem;font-size:clamp(0.88rem,2.8vw,0.97rem);
+  color:var(--gold-light);opacity:0;transform:translateY(6px);
+  transition:opacity 0.5s ease,transform 0.5s ease;
+}
+#wish-result.visible{opacity:1;transform:translateY(0);}
+
+/* ── Progress deploy button ── */
+.btn-deploy{
+  display:inline-flex;align-items:center;gap:0.5em;
+  padding:0.85em 2em;font-size:clamp(0.88rem,2.8vw,1rem);
+  font-weight:600;color:var(--text);
+  background:rgba(124,58,237,0.18);
+  border:1.5px solid rgba(167,139,250,0.3);
+  border-radius:50px;cursor:pointer;min-height:48px;
+  transition:all 0.28s;position:relative;overflow:hidden;
+}
+.btn-deploy:hover{background:rgba(124,58,237,0.3);border-color:rgba(167,139,250,0.5);color:#fff;transform:translateY(-2px);}
+.btn-deploy:active{transform:scale(0.97);}
+.btn-deploy:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
+
+.deploy-progress{
+  position:absolute;bottom:0;left:0;height:2px;width:0%;
+  background:linear-gradient(90deg,var(--violet),var(--rose),var(--gold));
+  transition:width 0.05s linear;border-radius:0 0 50px 50px;
+}
+
+/* ── Note card ── */
+.note-card{
+  width:100%;background:rgba(19,16,42,0.7);
+  border:1.5px solid rgba(255,107,157,0.2);
+  border-radius:20px;padding:clamp(1.5rem,4vw,2.2rem) clamp(1.3rem,4vw,2rem);
+  text-align:center;margin-bottom:1.4rem;
+  box-shadow:0 0 50px rgba(255,107,157,0.08),0 8px 40px rgba(0,0,0,0.4);
+}
+
+.note-body{
+  overflow:hidden;max-height:0;opacity:0;
+  transition:max-height 0.65s cubic-bezier(0.4,0,0.2,1),opacity 0.5s ease 0.1s;
+}
+.note-body.open{max-height:500px;opacity:1;}
+.note-body p{
+  font-size:clamp(0.9rem,2.8vw,1rem);color:var(--muted);
+  line-height:1.85;margin-bottom:0.9rem;text-align:left;
+}
+.note-body p:last-child{margin-bottom:0;}
+
+/* Code snippet inside note */
+.code-gift{
+  background:#0A0818;border:1px solid rgba(124,58,237,0.3);
+  border-radius:10px;padding:1rem 1.2rem;margin:1rem 0;
+  font-family:"SF Mono","Fira Code","Courier New",monospace;
+  font-size:clamp(0.72rem,2vw,0.82rem);line-height:1.8;
+  text-align:left;
+}
+.cg-comment{color:#6B7280;}
+.cg-key{color:#A78BFA;}
+.cg-val{color:#F472B6;}
+.cg-str{color:#34D399;}
+.cg-num{color:#FBBF24;}
+
+.note-sign{
+  margin-top:1.3rem;font-size:clamp(0.85rem,2.5vw,0.95rem);
+  color:var(--rose-light);opacity:0;
+  transition:opacity 0.6s ease 0.5s;
+}
+.note-sign.visible{opacity:1;}
+
+/* Footer */
+footer{
+  width:100%;max-width:720px;margin:0 auto;
+  padding:1rem 1.5rem calc(2.5rem + env(safe-area-inset-bottom,0px));
+  text-align:center;color:var(--muted);font-size:0.78rem;opacity:0.45;display:none;
+}
+footer.visible{display:block;animation:fade-rise 0.7s ease both;}
+
+/* ── Confetti ── */
+#conf-layer{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden;}
+.cb{position:absolute;border-radius:3px;animation:cf-fall var(--d,1.8s) var(--dl,0s) ease-in forwards;}
+@keyframes cf-fall{
+  0%{transform:translateY(-10px) rotate(0deg) scale(1);opacity:1;}
+  85%{opacity:1;}
+  100%{transform:translateY(105vh) rotate(720deg) scale(0.5);opacity:0;}
+}
+
+/* Flying stars */
+.fly-star{position:fixed;z-index:65;pointer-events:none;animation:fly-up var(--fd,1.3s) var(--fdl,0s) ease-out forwards;}
+@keyframes fly-up{
+  0%{opacity:1;transform:translateY(0) scale(1) rotate(0deg);}
+  100%{opacity:0;transform:translateY(-220px) scale(0.3) rotate(40deg);}
+}
+
+/* Reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .flame,.orb,.od1,.od2,.od3,.od4,.intro-name,.btn-cta,
+  .cb,.fly-star,#wish-result,.note-body,.cursor{
+    animation:none!important;transition-duration:.01ms!important;
+  }
+  .note-body.open{max-height:500px;opacity:1;}
+  #wish-result.visible{opacity:1;transform:none;}
+}
+
+/* ── Glitch title effect ── */
+.glitch{position:relative;display:inline-block;}
+.glitch::before,.glitch::after{
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;
+  background:inherit;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.glitch::before{
+  color:var(--rose);clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%);
+  animation:glitch-1 4s infinite;transform:translateX(-2px);
+}
+.glitch::after{
+  color:var(--violet-light);clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);
+  animation:glitch-2 4s infinite;transform:translateX(2px);
+}
+@keyframes glitch-1{
+  0%,90%,100%{transform:translateX(0);}
+  92%{transform:translateX(-3px);}
+  94%{transform:translateX(3px);}
+  96%{transform:translateX(-1px);}
+}
+@keyframes glitch-2{
+  0%,91%,100%{transform:translateX(0);}
+  93%{transform:translateX(3px);}
+  95%{transform:translateX(-3px);}
+  97%{transform:translateX(2px);}
+}
+
+/* deploy progress bar outside card */
+.progress-wrap{width:100%;background:rgba(255,255,255,0.05);border-radius:20px;height:4px;margin-top:1rem;overflow:hidden;}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--violet),var(--rose),var(--gold));border-radius:20px;transition:width 0.04s linear;}
+</style>
+</head>
+<body>
+
+<!-- ambient -->
+<div class="orb orb1" aria-hidden="true"></div>
+<div class="orb orb2" aria-hidden="true"></div>
+<div class="orb orb3" aria-hidden="true"></div>
+
+<!-- sparkles canvas -->
+<canvas id="sparkle-canvas" aria-hidden="true"></canvas>
+
+<!-- confetti layer -->
+<div id="conf-layer" aria-hidden="true"></div>
+
+<div id="page">
+
+<!-- ══ SCREEN 1 ══════════════════════════════════════════════ -->
+<section id="s-intro" aria-label="Birthday greeting for Shivangi">
+
+  <div class="terminal" role="region" aria-label="Birthday terminal" id="terminal-box">
+    <div class="term-bar">
+      <div class="term-dot"></div>
+      <div class="term-dot"></div>
+      <div class="term-dot"></div>
+      <span class="term-title">birthday.sh — bash</span>
+    </div>
+    <div class="term-body" id="term-body" aria-live="polite">
+      <span class="term-line" id="tl-0"><span class="tc-prompt">~/universe</span> <span class="tc-comment"># 17 Oct 2026</span></span>
+      <span class="term-line" id="tl-1"><span class="tc-prompt">$ </span><span class="tc-cmd">git log --oneline --author="Shivangi"</span></span>
+      <span class="term-line" id="tl-2"><span class="tc-success">a1b2c3d</span> <span class="tc-string">"added: another year of being amazing"</span></span>
+      <span class="term-line" id="tl-3"><span class="tc-success">9f8e7d6</span> <span class="tc-string">"fixed: every bug life threw at her"</span></span>
+      <span class="term-line" id="tl-4"><span class="tc-success">3c4d5e6</span> <span class="tc-string">"feat: levelled up in everything 🚀"</span></span>
+      <span class="term-line" id="tl-5"><span class="tc-prompt">$ </span><span class="tc-cmd">npm run celebrate --user=Shivangi</span></span>
+      <span class="term-line" id="tl-6"><span class="tc-comment">▶ Compiling joy................. </span><span class="tc-success">✓ done</span></span>
+      <span class="term-line" id="tl-7"><span class="tc-comment">▶ Bundling happiness........... </span><span class="tc-success">✓ done</span></span>
+      <span class="term-line" id="tl-8"><span class="tc-gold">🎂 Happy Birthday, Shivangi!  Build succeeded.</span></span>
+      <span class="term-line" id="tl-9"><span class="tc-prompt">$ </span><span class="cursor" id="cursor"></span></span>
+    </div>
+  </div>
+
+  <h1 class="intro-name">
+    <span class="glitch" data-text="Happy Birthday,">Happy Birthday,</span><br>Shivangi! 🌸
+  </h1>
+
+  <p class="intro-sub">A little corner of the internet, compiled with care, just for you.</p>
+
+  <button class="btn-cta" id="btn-open" type="button" aria-label="Open birthday surprise">
+    Deploy celebration 🚀
+  </button>
+  <p class="intro-hint">Tap to push the most important commit of the year.</p>
+
+</section>
+
+<!-- ══ SCREEN 2 ══════════════════════════════════════════════ -->
+<section id="s-cel" aria-label="Birthday celebration">
+
+  <!-- Universe + Cake -->
+  <div class="card" style="padding-top:2.2rem;">
+    <p class="s-tag">// your_birthday.exe</p>
+    <h2 class="s-title">Your little <span class="accent">universe</span> 🌌</h2>
+
+    <div class="universe-scene" aria-label="Animated birthday cake with orbiting particles" role="img">
+      <div class="orbit orbit-1"></div>
+      <div class="orbit orbit-2"></div>
+      <div class="orbit orbit-3"></div>
+
+      <!-- Orbiting dots -->
+      <div class="orb-dot od1" aria-hidden="true"></div>
+      <div class="orb-dot od2" aria-hidden="true"></div>
+      <div class="orb-dot od3" aria-hidden="true"></div>
+      <div class="orb-dot od4" aria-hidden="true"></div>
+
+      <!-- Cake SVG -->
+      <div class="cake-centre">
+        <svg viewBox="0 0 200 190" width="200" height="190" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+
+          <!-- Shadow -->
+          <ellipse cx="100" cy="186" rx="68" ry="7" fill="rgba(0,0,0,0.35)"/>
+
+          <!-- Layer 3 bottom — rose -->
+          <rect x="18" y="130" width="164" height="48" rx="13" fill="#FF6B9D"/>
+          <rect x="18" y="130" width="164" height="48" rx="13" fill="url(#gl3)"/>
+          <path d="M18 141 Q30 130 42 141 Q54 130 66 141 Q78 130 90 141 Q102 130 114 141 Q126 130 138 141 Q150 130 162 141 Q174 130 182 141" stroke="#FFB3CE" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <circle cx="50" cy="158" r="4" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="100" cy="154" r="3" fill="rgba(255,255,255,0.22)"/>
+          <circle cx="150" cy="158" r="4" fill="rgba(255,255,255,0.28)"/>
+          <text x="78" y="167" font-size="11" fill="rgba(255,255,255,0.35)">♥ ♥ ♥</text>
+
+          <!-- Layer 2 middle — cream/white -->
+          <rect x="34" y="90" width="132" height="44" rx="11" fill="#FFF1F5"/>
+          <rect x="34" y="90" width="132" height="44" rx="11" fill="url(#gl2)"/>
+          <path d="M34 100 Q46 90 58 100 Q70 90 82 100 Q94 90 106 100 Q118 90 130 100 Q142 90 154 100 Q166 90 166 100" stroke="#FF6B9D" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="68" cy="113" r="4.5" fill="#FFB3CE" opacity="0.7"/>
+          <circle cx="100" cy="108" r="3" fill="#A78BFA" opacity="0.6"/>
+          <circle cx="132" cy="113" r="4.5" fill="#FFB3CE" opacity="0.7"/>
+          <text x="88" y="126" font-size="12" fill="#FF6B9D" opacity="0.5">✦ ✦</text>
+
+          <!-- Layer 1 top — violet -->
+          <rect x="52" y="56" width="96" height="38" rx="10" fill="#9B6DFF"/>
+          <rect x="52" y="56" width="96" height="38" rx="10" fill="url(#gl1)"/>
+          <path d="M52 66 Q64 56 76 66 Q88 56 100 66 Q112 56 124 66 Q136 56 148 66" stroke="#C4B5FD" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <text x="84" y="82" font-size="11" fill="rgba(255,255,255,0.5)" text-anchor="middle">♥</text>
+          <text x="114" y="80" font-size="9" fill="#FBBF24" opacity="0.7">★</text>
+
+          <!-- Candles -->
+          <rect x="65" y="38" width="8" height="20" rx="4" fill="#FBBF24"/>
+          <g class="flame" style="transform-origin:69px 38px">
+            <ellipse cx="69" cy="33" rx="4.5" ry="6.5" fill="#FB923C" opacity=".95"/>
+            <ellipse cx="69" cy="31" rx="2" ry="3.5" fill="#FEF08A" opacity=".9"/>
+          </g>
+
+          <rect x="82" y="35" width="8" height="23" rx="4" fill="#F472B6"/>
+          <g class="flame" style="transform-origin:86px 35px">
+            <ellipse cx="86" cy="29" rx="4.5" ry="7" fill="#E879F9" opacity=".95"/>
+            <ellipse cx="86" cy="27" rx="2" ry="4" fill="#F0ABFC" opacity=".9"/>
+          </g>
+
+          <rect x="96" y="30" width="8" height="28" rx="4" fill="#A78BFA"/>
+          <g class="flame" style="transform-origin:100px 30px">
+            <ellipse cx="100" cy="23" rx="5" ry="7.5" fill="#7C3AED" opacity=".95"/>
+            <ellipse cx="100" cy="21" rx="2.5" ry="4.5" fill="#DDD6FE" opacity=".9"/>
+          </g>
+
+          <rect x="110" y="35" width="8" height="23" rx="4" fill="#F472B6"/>
+          <g class="flame" style="transform-origin:114px 35px">
+            <ellipse cx="114" cy="29" rx="4.5" ry="7" fill="#E879F9" opacity=".95"/>
+            <ellipse cx="114" cy="27" rx="2" ry="4" fill="#F0ABFC" opacity=".9"/>
+          </g>
+
+          <rect x="127" y="38" width="8" height="20" rx="4" fill="#FBBF24"/>
+          <g class="flame" style="transform-origin:131px 38px">
+            <ellipse cx="131" cy="33" rx="4.5" ry="6.5" fill="#FB923C" opacity=".95"/>
+            <ellipse cx="131" cy="31" rx="2" ry="3.5" fill="#FEF08A" opacity=".9"/>
+          </g>
+
+          <!-- Sparkle around cake -->
+          <text x="4" y="80" font-size="14" fill="#FBBF24" opacity=".8">✦</text>
+          <text x="180" y="100" font-size="11" fill="#FF6B9D" opacity=".7">✦</text>
+          <text x="8" y="130" font-size="9" fill="#A78BFA" opacity=".6">★</text>
+          <text x="178" y="60" font-size="12" fill="#FBBF24" opacity=".65">✨</text>
+          <text x="6" y="55" font-size="10" fill="#FF6B9D" opacity=".5">♥</text>
+          <text x="180" y="155" font-size="10" fill="#A78BFA" opacity=".5">♥</text>
+
+          <defs>
+            <linearGradient id="gl3" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fff" stop-opacity=".15"/>
+              <stop offset="100%" stop-color="#000" stop-opacity=".1"/>
+            </linearGradient>
+            <linearGradient id="gl2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fff" stop-opacity=".2"/>
+              <stop offset="100%" stop-color="#000" stop-opacity=".06"/>
+            </linearGradient>
+            <linearGradient id="gl1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fff" stop-opacity=".18"/>
+              <stop offset="100%" stop-color="#000" stop-opacity=".1"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <p class="wish-text">Wishing you a year full of clean commits, zero bugs, big adventures, and even bigger wins.</p>
+
+    <div class="divider" aria-hidden="true">
+      <span class="div-line"></span>
+      <span>✦ ✦ ✦</span>
+      <span class="div-line"></span>
+    </div>
+
+    <div class="msg-block">
+      <p class="msg-headline">Happy Birthday, Shivangi! 💗</p>
+      <p>I hope this new chapter brings you exciting opportunities, beautiful memories, and everything you're working towards — in code and in life.</p>
+      <p>Keep building, keep learning, keep shining. You've got this. ✨</p>
+      <p>Hope your birthday was amazing! 🥳</p>
+    </div>
+  </div>
+
+  <!-- ── Wish constellation ── -->
+  <div class="card">
+    <p class="s-tag">// make_a_wish.js</p>
+    <h2 class="s-title" style="font-size:clamp(1.1rem,4vw,1.5rem);margin-bottom:.5rem;">One tiny birthday ritual 🌟</h2>
+    <p class="wish-text" style="font-size:clamp(.86rem,2.6vw,.97rem);margin-bottom:1rem;">
+      Tap the stars to draw your constellation — then make a wish.
+    </p>
+
+    <div class="constellation-wrap" id="const-wrap" aria-label="Interactive star constellation canvas">
+      <canvas id="const-canvas" aria-hidden="true"></canvas>
+    </div>
+    <p class="const-hint">Tap to place stars · Connect them · Make your wish</p>
+
+    <button class="btn-deploy" id="btn-wish" type="button" aria-label="Send your birthday wish" style="margin-top:1.2rem;">
+      Send wish to the universe ✨
+      <span class="deploy-progress" id="wish-progress"></span>
+    </button>
+
+    <p id="wish-result" role="status" aria-live="polite">
+      Wish sent. The universe has received it. May something wonderful find its way to you. 💫
+    </p>
+  </div>
+
+  <!-- ── Final note ── -->
+  <div class="note-card" id="note-card">
+    <p class="s-tag">// README.md</p>
+    <h2 class="s-title" style="font-size:clamp(1.1rem,4vw,1.5rem);margin-bottom:.9rem;">One last little thing 💌</h2>
+
+    <button class="btn-deploy" id="btn-note" type="button" aria-expanded="false" aria-controls="note-body">
+      cat birthday_note.txt
+    </button>
+
+    <div class="note-body" id="note-body" role="region" aria-label="Personal note">
+      <div style="height:1rem;"></div>
+
+      <div class="code-gift" aria-label="Birthday code snippet">
+        <span class="cg-comment">// birthday_message.json</span><br>
+        {<br>
+        &nbsp;&nbsp;<span class="cg-key">"to"</span>: <span class="cg-str">"Shivangi"</span>,<br>
+        &nbsp;&nbsp;<span class="cg-key">"from"</span>: <span class="cg-str">"a fellow coder"</span>,<br>
+        &nbsp;&nbsp;<span class="cg-key">"gift"</span>: <span class="cg-str">"this little website"</span>,<br>
+        &nbsp;&nbsp;<span class="cg-key">"lines_of_code"</span>: <span class="cg-num">~1000</span>,<br>
+        &nbsp;&nbsp;<span class="cg-key">"bugs_shipped"</span>: <span class="cg-num">0</span>, <span class="cg-comment">// hopefully 😄</span><br>
+        &nbsp;&nbsp;<span class="cg-key">"message"</span>: <span class="cg-str">"Some gifts don't need wrapping."</span><br>
+        }
+      </div>
+
+      <p>Sometimes the best way to say happy birthday is to build something. So here it is — a tiny digital universe, made just for you. 😄</p>
+      <p>Hope this little surprise added a smile to your day, Shivangi. Have an amazing year ahead! ✨</p>
+    </div>
+
+    <p class="note-sign" id="note-sign">Made with a little code and a lot of birthday wishes. 💗</p>
+  </div>
+
+</section>
+
+<footer id="footer" role="contentinfo">
+  Crafted with ✨ CSS · vanilla JS · and a little birthday magic.
+</footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+const rm = () => window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ── Sparkle canvas bg ───────────────────────────────── */
+(function initSparkles(){
+  const c = document.getElementById('sparkle-canvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  let W,H,stars=[];
+
+  function resize(){
+    W = c.width = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function mkStar(){
+    return {
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.4+0.4,
+      op: Math.random(),
+      speed: Math.random()*0.008+0.003,
+      phase: Math.random()*Math.PI*2
+    };
+  }
+  for(let i=0;i<80;i++) stars.push(mkStar());
+
+  function tick(t){
+    ctx.clearRect(0,0,W,H);
+    if(!rm()){
+      stars.forEach(s=>{
+        s.op = 0.35 + 0.55*Math.abs(Math.sin(t*s.speed + s.phase));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${s.op.toFixed(2)})`;
+        ctx.fill();
+      });
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* ── Terminal typewriter ────────────────────────────── */
+(function initTerminal(){
+  const lines = [
+    document.getElementById('tl-0'),
+    document.getElementById('tl-1'),
+    document.getElementById('tl-2'),
+    document.getElementById('tl-3'),
+    document.getElementById('tl-4'),
+    document.getElementById('tl-5'),
+    document.getElementById('tl-6'),
+    document.getElementById('tl-7'),
+    document.getElementById('tl-8'),
+    document.getElementById('tl-9'),
+  ];
+  const delays = [0, 400, 900, 1200, 1500, 2000, 2600, 3000, 3500, 4000];
+
+  if(rm()){
+    lines.forEach(l => { if(l) l.classList.add('typed'); });
+    return;
+  }
+
+  lines.forEach((l,i) => {
+    if(!l) return;
+    setTimeout(() => l.classList.add('typed'), delays[i]);
+  });
+})();
+
+/* ── Confetti ────────────────────────────────────────── */
+let confActive = false;
+function spawnConfetti(){
+  if(confActive || rm()) return;
+  confActive = true;
+  const layer = document.getElementById('conf-layer');
+  const cols = ['#FF6B9D','#A78BFA','#FBBF24','#FFB3CE','#34D399','#F0ABFC','#FEF08A'];
+  const pieces = [];
+  for(let i=0;i<60;i++){
+    const el = document.createElement('div');
+    el.className = 'cb';
+    const w = Math.random()*9+5, h = Math.random()*5+3;
+    el.style.cssText = [
+      `width:${w}px`,`height:${h}px`,
+      `left:${(Math.random()*100).toFixed(1)}%`,`top:-12px`,
+      `background:${cols[Math.floor(Math.random()*cols.length)]}`,
+      `border-radius:${Math.random()>.4?'50%':'2px'}`,
+      `--d:${(Math.random()*1.3+1.3).toFixed(2)}s`,
+      `--dl:${(Math.random()*0.5).toFixed(2)}s`,
+      `transform:rotate(${(Math.random()*360).toFixed()}deg)`,
+    ].join(';');
+    layer.appendChild(el);
+    pieces.push(el);
+  }
+  void layer.offsetHeight;
+  setTimeout(()=>{ pieces.forEach(p=>p.parentNode&&p.parentNode.removeChild(p)); confActive=false; }, 2600);
+}
+
+/* ── Gift reveal ─────────────────────────────────────── */
+let revealed = false;
+function openGift(){
+  if(revealed) return;
+  revealed = true;
+  const btn = document.getElementById('btn-open');
+  if(btn){ btn.disabled = true; btn.textContent='Deploying… 🚀'; }
+
+  // Progress bar effect
+  const wrap = document.createElement('div');
+  wrap.className = 'progress-wrap';
+  const bar = document.createElement('div');
+  bar.className = 'progress-bar';
+  bar.id = 'deploy-bar';
+  wrap.appendChild(bar);
+  const intro = document.getElementById('s-intro');
+  if(intro) intro.appendChild(wrap);
+
+  let pct = 0;
+  const interval = setInterval(()=>{
+    pct = Math.min(pct + Math.random()*12 + 3, 100);
+    bar.style.width = pct + '%';
+    if(pct >= 100){
+      clearInterval(interval);
+      doReveal();
+    }
+  }, rm() ? 1 : 55);
+}
+
+function doReveal(){
+  spawnConfetti();
+  const intro = document.getElementById('s-intro');
+  const cel   = document.getElementById('s-cel');
+  const footer= document.getElementById('footer');
+
+  setTimeout(()=>{
+    if(intro){
+      intro.style.transition = 'opacity .4s ease, transform .4s ease';
+      intro.style.opacity = '0';
+      intro.style.transform = 'translateY(-18px)';
+      intro.setAttribute('aria-hidden','true');
+    }
+  }, rm() ? 0 : 300);
+
+  setTimeout(()=>{
+    if(intro) intro.style.display = 'none';
+    if(cel){
+      cel.classList.add('visible');
+      window.scrollTo({ top:0, behavior: rm()?'auto':'smooth' });
+      const h = cel.querySelector('.s-title');
+      if(h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); }
+    }
+    if(footer) footer.classList.add('visible');
+  }, rm() ? 10 : 680);
+}
+
+/* ── Constellation canvas ────────────────────────────── */
+function initConstellation(){
+  const wrap  = document.getElementById('const-wrap');
+  const canvas= document.getElementById('const-canvas');
+  if(!canvas||!wrap) return;
+  const ctx   = canvas.getContext('2d');
+  const pts   = [];
+  let W,H;
+
+  function resize(){
+    const rect = wrap.getBoundingClientRect();
+    W = canvas.width  = Math.floor(rect.width);
+    H = canvas.height = Math.floor(rect.height || 180);
+    draw();
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // lines
+    if(pts.length > 1){
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, pts[0].y);
+      for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.strokeStyle = 'rgba(167,139,250,0.4)';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([4,4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    // stars
+    pts.forEach((p,i)=>{
+      const grad = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,8);
+      grad.addColorStop(0,'rgba(251,191,36,0.9)');
+      grad.addColorStop(1,'rgba(251,191,36,0)');
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 8, 0, Math.PI*2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
+      ctx.fillStyle = '#FDE68A';
+      ctx.fill();
+      // number label
+      ctx.fillStyle = 'rgba(255,255,255,0.55)';
+      ctx.font = '9px system-ui';
+      ctx.fillText(i+1, p.x+5, p.y-5);
+    });
+  }
+
+  function getPos(e){
+    const r = canvas.getBoundingClientRect();
+    if(e.touches){
+      return {x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top};
+    }
+    return {x: e.clientX - r.left, y: e.clientY - r.top};
+  }
+
+  function addPoint(e){
+    e.preventDefault();
+    if(pts.length >= 12) pts.shift();
+    const p = getPos(e);
+    pts.push(p);
+    draw();
+  }
+
+  canvas.addEventListener('click',   addPoint);
+  canvas.addEventListener('touchend', addPoint, {passive:false});
+}
+
+/* ── Wish button with progress ───────────────────────── */
+let wishRunning = false;
+function makeWish(){
+  const btn      = document.getElementById('btn-wish');
+  const result   = document.getElementById('wish-result');
+  const progress = document.getElementById('wish-progress');
+  if(wishRunning || rm()){
+    if(result){ result.classList.remove('visible'); void result.offsetHeight; result.classList.add('visible'); }
+    spawnFlyStars();
+    return;
+  }
+  wishRunning = true;
+  if(btn) btn.disabled = true;
+
+  let pct = 0;
+  const iv = setInterval(()=>{
+    pct = Math.min(pct + Math.random()*14 + 4, 100);
+    if(progress) progress.style.width = pct + '%';
+    if(pct >= 100){
+      clearInterval(iv);
+      if(progress) progress.style.width = '0%';
+      if(result){ result.classList.remove('visible'); void result.offsetHeight; result.classList.add('visible'); }
+      spawnFlyStars();
+      setTimeout(()=>{
+        wishRunning = false;
+        if(btn){ btn.disabled = false; }
+      }, 1200);
+    }
+  }, 40);
+}
+
+function spawnFlyStars(){
+  if(rm()) return;
+  const card = document.getElementById('btn-wish');
+  if(!card) return;
+  const r = card.getBoundingClientRect();
+  const emojis=['⭐','✨','💫','🌟','✦','★','🎆'];
+  for(let i=0;i<12;i++){
+    const el = document.createElement('div');
+    el.className = 'fly-star';
+    el.setAttribute('aria-hidden','true');
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    const x = r.left + Math.random()*r.width;
+    const y = r.top  + r.height*0.5 + window.scrollY;
+    el.style.cssText = [
+      `left:${x.toFixed()}px`,`top:${y.toFixed()}px`,
+      `font-size:${(Math.random()*.8+.9).toFixed(1)}rem`,
+      `--fd:${(Math.random()*.5+1).toFixed(2)}s`,
+      `--fdl:${(Math.random()*.3).toFixed(2)}s`,
+    ].join(';');
+    document.body.appendChild(el);
+    el.addEventListener('animationend',()=>{ if(el.parentNode) el.parentNode.removeChild(el); },{once:true});
+  }
+}
+
+/* ── Note reveal ─────────────────────────────────────── */
+let noteOpen = false;
+function revealNote(){
+  const body  = document.getElementById('note-body');
+  const sign  = document.getElementById('note-sign');
+  const btn   = document.getElementById('btn-note');
+
+  noteOpen = !noteOpen;
+  if(btn){ btn.textContent = noteOpen ? 'close birthday_note.txt' : 'cat birthday_note.txt'; btn.setAttribute('aria-expanded', noteOpen?'true':'false'); }
+  if(body){ body.classList.toggle('open', noteOpen); }
+  if(sign){
+    if(noteOpen){
+      setTimeout(()=>{ sign.classList.add('visible'); }, 500);
+    } else {
+      sign.classList.remove('visible');
+    }
+  }
+}
+
+/* ── Wire events ─────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',()=>{
+  const bOpen = document.getElementById('btn-open');
+  const bWish = document.getElementById('btn-wish');
+  const bNote = document.getElementById('btn-note');
+
+  if(bOpen) bOpen.addEventListener('click', openGift);
+  if(bWish) bWish.addEventListener('click', makeWish);
+  if(bNote) bNote.addEventListener('click', revealNote);
+
+  initConstellation();
+});
+
+})();
+</script>
+</body>
+</html>
